@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .calculator-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .calculator-container h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .quote-result {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h2>Get Your Quote</h2>
+        <div class="form-group">
+            <label for="service-type">Service Type</label>
+            <select id="service-type">
+                <option value="residential">Residential Cleaning</option>
+                <option value="commercial">Commercial Cleaning</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bedrooms">Number of Bedrooms</label>
+            <input type="number" id="bedrooms" placeholder="Enter the number of bedrooms">
+        </div>
+        <div class="form-group">
+            <label for="bathrooms">Number of Bathrooms</label>
+            <input type="number" id="bathrooms" placeholder="Enter the number of bathrooms">
+        </div>
+        <div class="form-group">
+            <label for="pets">Number of Pets</label>
+            <input type="number" id="pets" placeholder="Enter the number of pets">
+        </div>
+        <div class="form-group">
+            <label for="square-feet">Square Feet</label>
+            <input type="number" id="square-feet" placeholder="Enter the size in square feet">
+        </div>
+        <div class="form-group">
+            <label for="cleaning-frequency">Type of Cleaning</label>
+            <select id="cleaning-frequency">
+                <option value="one-time">One-Time</option>
+                <option value="weekly">Weekly</option>
+                <option value="bi-weekly">Bi-Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+        </div>
+        <button onclick="calculateQuote()">Get Quote</button>
+        <div class="quote-result" id="quote-result"></div>
+    </div>
+
+    <script>
+        function calculateQuote() {
+            var serviceType = document.getElementById('service-type').value;
+            var bedrooms = parseInt(document.getElementById('bedrooms').value) || 0;
+            var bathrooms = parseInt(document.getElementById('bathrooms').value) || 0;
+            var pets = parseInt(document.getElementById('pets').value) || 0;
+            var squareFeet = parseInt(document.getElementById('square-feet').value) || 0;
+            var cleaningFrequency = document.getElementById('cleaning-frequency').value;
+            
+            var pricePerSquareFoot = serviceType === 'residential' ? 0.10 : 0.15;
+            var frequencyMultiplier = 1;
+
+            switch (cleaningFrequency) {
+                case 'weekly':
+                    frequencyMultiplier = 0.9;
+                    break;
+                case 'bi-weekly':
+                    frequencyMultiplier = 0.95;
+                    break;
+                case 'monthly':
+                    frequencyMultiplier = 1;
+                    break;
+            }
+
+            var basePrice = squareFeet * pricePerSquareFoot;
+            var bedroomCost = bedrooms * 20;
+            var bathroomCost = bathrooms * 15;
+            var petCost = pets * 10;
+            var totalCost = (basePrice + bedroomCost + bathroomCost + petCost) * frequencyMultiplier;
+
+            document.getElementById('quote-result').innerText = 'Estimated Quote: $' + totalCost.toFixed(2);
+        }
+    </script>
+</body>
+</html>
+
